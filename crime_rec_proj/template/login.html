@@ -11,7 +11,7 @@
 </head>
 <body>
     <h1>Crime Record Management System</h1>
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="#"> <!--action should be the page-->
         {% csrf_token %}
         <label for="Username"><b>Username:</b></label>
         <input type="text" style="font-style:italic" id="username" name="Username" placeholder="Username" required><br>
