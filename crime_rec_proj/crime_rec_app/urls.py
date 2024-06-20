@@ -20,6 +20,7 @@ from crime_rec_app import views
 
 
 urlpatterns = [
-    path("", views.login, name = 'redirectlogin'),
-    path("login", views.login, name = 'login'),
+    path("", views.login, name='redirectlogin'),
+    path("login", views.login, name='login'),
 ]
+

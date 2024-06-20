@@ -1,0 +1,24 @@
+<!-- templates/myapp/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+    <h1>Crime Record Management System</h1>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="Username"><b>Username:</b></label>
+        <input type="text" style="font-style:italic" id="username" name="Username" placeholder="Username" required><br>
+        <label for="Password"><b>Password:</b></label>
+        <input type="password"  style="font-style:italic" id="password" name="Password" placeholder="Passowrd" required><br>
+        
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
