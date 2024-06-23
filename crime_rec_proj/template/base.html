@@ -4,7 +4,7 @@
     {% block head %} {% endblock head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {% block title %} Login Page {% endblock title %}</title>
+    <title> {% block title %} base page {% endblock title %}</title>
     <script>
         // Function to display an alert message
         function showAlert(message) {
@@ -22,21 +22,12 @@
     <link rel="stylesheet" href="{% static 'login.css' %}">
 </head>
 <body>
-    <h3>Login Page</h3>
     {% block body %}
     <h1>Crime Record Management System</h1>
-    <form method="POST" action="/login"> <!--action should be the page-->
+    <form method="POST" action="/base"> <!--action should be the page-->
         {% csrf_token %}
-        
-        <label for="Username"><b>Username:</b></label> <!-- for value and id value should match -->
-        <input type="text" style="font-style:italic" id="Username" name="Username" placeholder="Username" required><br>
-        <label for="Password"><b>Password:</b></label>
-        <input type="password"  style="font-style:italic" id="Password" name="Password" placeholder="Passowrd" required><br>    
-        <div class="button-container">
-            <button type="submit" name="login" style="margin: 50px">Login</button>
-            <button type="submit" name="signup" style="margin: 50px">Sign up</button>
-        </div>
-        
+        <h2> base page </h2>
+        <button type="submit">Login</button>
     </form>
     {% endblock body %}
 </body>

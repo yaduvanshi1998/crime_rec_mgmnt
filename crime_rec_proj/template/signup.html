@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <script>
+        // Function to display an alert message
+        function showAlert(message) {
+            alert(message);
+        }
+
+        // Check if there's an error message from the server
+        window.onload = function() {
+            {% if error_message %}
+                showAlert("{{ error_message }}");
+            {% elif success_message %}
+                showAlert("{{ success_message }}");
+            {% endif %}
+        }
+    </script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+    <h3>Sign Up Page</h3>
+    <h1>Crime Record Management System</h1>
+    <form method="POST" action="/signup"> <!--action should be the page-->
+        {% csrf_token %}
+        <label for="Fname"><b>First name:</b></label> <!-- for value and id value should match -->
+        <input type="text" style="font-style:italic" id="Fname" name="Fname" placeholder="First name" required><br>
+
+        <label for="Lname"><b>last name:</b></label> <!-- for value and id value should match -->
+        <input type="text" style="font-style:italic" id="Lname" name="Lname" placeholder="Last name" required><br>
+
+        <label for="Email"><b>Eamil:</b></label> <!-- for value and id value should match -->
+        <input type="Email" style="font-style:italic" id="Email" name="Email" placeholder="Email" required><br>
+
+        <label for="Username"><b>Username:</b></label> <!-- for value and id value should match -->
+        <input type="text" style="font-style:italic" id="Username" name="Username" placeholder="Username" required><br>
+
+        <label for="Password"><b>Password:</b></label>
+        <input type="password"  style="font-style:italic" id="Password" name="Password" placeholder="Passowrd" required><br>  
+
+        <div class="button-container">
+            <button type="submit" name="save" >Save data</button>
+        </div>      
+    </form>
+</body>
+</html>
