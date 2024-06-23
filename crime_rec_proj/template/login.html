@@ -17,6 +17,13 @@
                 showAlert("{{ error_message }}");
             {% endif %}
         }
+
+        // Function to remove required attributes when Sign Up is clicked
+        function handleSignupClick() {
+            document.getElementById('Username').removeAttribute('required');
+            document.getElementById('Password').removeAttribute('required');
+        }
+
     </script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'login.css' %}">
@@ -34,7 +41,7 @@
         <input type="password"  style="font-style:italic" id="Password" name="Password" placeholder="Passowrd" required><br>    
         <div class="button-container">
             <button type="submit" name="login" style="margin: 50px">Login</button>
-            <button type="submit" name="signup" style="margin: 50px">Sign up</button>
+            <button type="submit" name="signup" style="margin: 50px"  onclick="handleSignupClick()">Sign up</button>
         </div>
         
     </form>
