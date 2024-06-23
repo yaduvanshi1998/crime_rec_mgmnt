@@ -10,3 +10,5 @@ class Login_info(models.Model):
     def __str__(self):
         return self.Username
     
+    #Login_info_obj = models.Manager()
+    
