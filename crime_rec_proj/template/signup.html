@@ -10,7 +10,7 @@
             alert(message);
         }
 
-        // Check if there's an error message from the server
+    // Check if there's an error message or success message from the server
         window.onload = function() {
             {% if error_message %}
                 showAlert("{{ error_message }}");

@@ -4,6 +4,9 @@ from django.db import models
 
 class Login_info(models.Model):
     Username = models.CharField(primary_key= True, max_length=20)
+    F_name = models.CharField(max_length=50)
+    L_name = models.CharField(max_length=50)
+    Email = models.EmailField(max_length=20, unique=True)
     Password = models.CharField(max_length=20)
     DateTime = models.DateTimeField(auto_now_add=True)
 
