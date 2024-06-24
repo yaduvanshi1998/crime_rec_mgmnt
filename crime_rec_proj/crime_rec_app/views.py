@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse , redirect
 from .models import Login_info
+from datetime import datetime
 
 
 def login(request):
@@ -25,7 +26,28 @@ def login(request):
 
 
 def signup(request):
-    return render(request, "signup.html")
+    if request.method == "POST":
+        username = request.POST.get("Username")
+        fname = request.POST.get("Fname")
+        lname = request.POST.get("Lname")
+        email = request.POST.get("Email")
+        password = request.POST.get("Password")
+            # Check if username or email already exists
+        try:
+            if Login_info.objects.filter(Username=username).exists():
+                return render(request, 'signup.html', {'error_message': 'Username {} already exists. Please choose a different username.'.format(username)})
+            elif Login_info.objects.filter(Email=email).exists():
+                return render(request, 'signup.html', {'error_message': 'Email {} already exists. Please use a different email address.'.format(email)})
+            else:
+                new_login_info = Login_info(Username=username, F_name=fname, L_name=lname, Email=email, Password=password, DateTime=datetime.today())
+                new_login_info.save()
+                return render(request, 'signup.html', {'success_message': 'Data added to database successfully!'})
+        except Exception as e:
+            print(e)  # Print the exception for debugging purposes
+            return render(request, 'signup.html', {'error_message': 'An error occurred while processing your request.'})
+    
+    else:
+        return render(request, "signup.html")
 
 def base(request):
     return render(request, "base.html")

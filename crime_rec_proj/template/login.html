@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     {% block head %} {% endblock head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {% block title %} Login Page {% endblock title %}</title>
+    <script src="{% static '/popup_errors.js' %}"> </script> <!-- Link to the JavaScript file -->
     <script>
-        // Function to display an alert message
-        function showAlert(message) {
-            alert(message = "Invalid Credentials");
-        }
-
-        // Check if there's an error message from the server
-        window.onload = function() {
-            {% if error_message %}
-                showAlert("{{ error_message }}");
-            {% endif %}
-        }
-
-        // Function to remove required attributes when Sign Up is clicked
-        function handleSignupClick() {
-            document.getElementById('Username').removeAttribute('required');
-            document.getElementById('Password').removeAttribute('required');
-        }
-
+        // Set the error message from the server as a global variable
+        window.errorMessage = {% if error_message %}"{{ error_message }}"{% else %}null{% endif %};
     </script>
-    {% load static %}
+
     <link rel="stylesheet" href="{% static 'login.css' %}">
 </head>
 <body>
@@ -40,8 +26,8 @@
         <label for="Password"><b>Password:</b></label>
         <input type="password"  style="font-style:italic" id="Password" name="Password" placeholder="Passowrd" required><br>    
         <div class="button-container">
-            <button type="submit" name="login" style="margin: 50px">Login</button>
-            <button type="submit" name="signup" style="margin: 50px"  onclick="handleSignupClick()">Sign up</button>
+            <button type="submit" name="login" style="margin-left: 310px">Login</button>
+            <button type="submit" name="signup" style="margin-left: 10px"  onclick="handleSignupClick()">Sign up</button>
         </div>
         
     </form>
