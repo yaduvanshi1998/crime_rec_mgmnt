@@ -1,34 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
-    {% block head %} {% endblock head %}
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {% block title %} base page {% endblock title %}</title>
-    <script>
-        // Function to display an alert message
-        function showAlert(message) {
-            alert(message = "Invalid Credentials");
-        }
+    <title>Crime Record Management</title>
 
-        // Check if there's an error message from the server
-        window.onload = function() {
-            {% if error_message %}
-                showAlert("{{ error_message }}");
-            {% endif %}
-        }
-    </script>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
 </head>
+
 <body>
-    {% block body %}
-    <h1>Crime Record Management System</h1>
-    <form method="POST" action="/base"> <!--action should be the page-->
-        {% csrf_token %}
-        <h2> base page </h2>
-        <button type="submit">Login</button>
-    </form>
-    {% endblock body %}
+    <header>
+        <h1>Welcome to Crime Record Management</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Report Crime</a></li>
+            <div class="navbar-search">
+        </ul>
+        <
+        <input type="text" placeholder="Search...">
+                <button type="submit">Search</button>
+            </div>
+    </nav>
+
+    <div class="hero">
+    </div>
+
+    <div class="content">
+        <section class="section">
+            <h2>About Us</h2>
+            <p>Crime Record Management is a comprehensive system designed to manage and analyze crime records
+                effectively. Our platform provides tools for law enforcement agencies to track, report, and analyze
+                crime data, helping to ensure public safety and streamline investigative processes.</p>
+        </section>
+
+        <section class="section">
+            <h2>Our Services</h2>
+            <ul>
+                <li>Crime Data Analysis</li>
+                <li>Crime Reporting</li>
+                <li>Real-time Alerts</li>
+                <li>Resource Management</li>
+
+            </ul>
+        </section>
+
+        <section class="section gallery">
+            <h2>Crime Scene Gallery</h2>
+        </section>
+
+        <section class="section">
+            <h2>Contact Us</h2>
+            <form action="#" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+
+        <section class="section">
+            <h2>Search Crime Records</h2>
+            <form action="#" method="get">
+                <input type="text" id="search" name="search" placeholder="Search crime records...">
+                <input type="submit" value="Search">
+            </form>
+        </section>
+
+        <section class="section">
+            <h2>Report a Crime</h2>
+            <form action="#" method="post">
+                <label for="crimeType">Crime Type:</label>
+                <select id="crimeType" name="crimeType">
+                    <option value="theft">Theft</option>
+                    <option value="assault">Assault</option>
+                    <option value="vandalism">Vandalism</option>
+                </select>
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+                <label for="details">Details:</label>
+                <textarea id="details" name="details" rows="4" required></textarea>
+                <label for="evidence">Upload Evidence (optional):</label>
+                <input type="file" id="evidence" name="evidence">
+                <input type="submit" value="Report">
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Crime Record Management. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const gallery = document.querySelector('.gallery');
+            const apiUrl = 'https://api.example.com/crime-images'; // Replace with actual API endpoint
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    data.images.forEach(image => { // Adjust 'images' based on actual API response structure
+                        const imgElement = document.createElement('img');
+                        imgElement.src = image.url; // Adjust 'url' based on actual API response structure
+                        imgElement.alt = image.description || 'Crime Record Image'; // Optional description
+                        gallery.appendChild(imgElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching images:', error));
+        });
+    </script>
 </body>
 </html>
