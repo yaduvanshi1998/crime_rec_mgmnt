@@ -75,11 +75,11 @@ WSGI_APPLICATION = 'crime_rec_proj.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+  'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crime_rec_mgmnt',     # Database name
         'USER': 'root',                # MySQL username (root in this case)
-        'PASSWORD': 'Crime_123',  # Password for MySQL root user
+        'PASSWORD': 'Crime_123',  # Password for MySQL root useradort
         'HOST': 'localhost',           # Database host (MySQL server address)
         'PORT': '3306',                # Database port (MySQL default port)
     }
