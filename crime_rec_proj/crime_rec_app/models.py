@@ -15,3 +15,13 @@ class Login_info(models.Model):
     
     #Login_info_obj = models.Manager()
     
+class Court_info(models.Model):
+    Court_id = models.CharField(primary_key=True, max_length=10)
+    Court_name = models.CharField(max_length=25)
+    Address = models.TextField(max_length=125)
+    Level = models.CharField(max_length=25)
+    Phone_no = models.CharField(max_length=15)
+    Email = models.EmailField(max_length=50)
+
+    def __str__(self):
+        return self.Court_name
