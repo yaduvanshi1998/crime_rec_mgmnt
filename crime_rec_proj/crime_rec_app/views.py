@@ -1,5 +1,5 @@
-from django.shortcuts import render, HttpResponse , redirect
-from .models import Login_info,Court_info
+from django.shortcuts import render, HttpResponse , redirect, get_object_or_404
+from .models import Login_info,Court_info, Judge_info
 from datetime import datetime
 
 
@@ -103,3 +103,65 @@ def add_court(request):
 
     # Render the form if the request method is not POST
     return render(request, "add_court.html")
+
+from django.shortcuts import render, get_object_or_404
+from .models import Judge_info, Court_info
+
+def add_judge(request):
+    if request.method == "POST":
+        # Extract form data
+        f_name = request.POST.get("F_name")
+        l_name = request.POST.get("L_name")
+        designation = request.POST.get("Designation")
+        court_name = request.POST.get("Court_name")
+        age = request.POST.get("Age")
+        address = request.POST.get("Address")
+        phone_no = request.POST.get("Phone")
+        email = request.POST.get("Email")
+    
+        try:
+            # Fetch the Court_id using the provided court_name
+            court = get_object_or_404(Court_info, Court_name=court_name)
+            print("court --------------", court)
+
+            # Check if phone and email already exists
+            if Judge_info.objects.filter(Email=email).exists(): 
+                return render(request, 'add_judge.html', {
+                    'error_message': f'Email {email} already exists. Please choose a different ID.'
+                })
+            
+            elif Judge_info.objects.filter(Phone_no=phone_no).exists():
+                return render(request, 'add_judge.html', {
+                    'error_message': f'Phone no. {phone_no} already exists. Please choose a different phone no.'
+                })
+
+            # Create and save the Judge_info record
+            judge = Judge_info(
+                F_name=f_name,
+                L_name=l_name,
+                Designation=designation,
+                Court_id=court,  # Use the Court_info instance directly
+                Age=age,
+                Address=address,
+                Phone_no=phone_no,
+                Email=email,
+            )
+            judge.save()
+
+            #courts = Court_info.objects.all()
+            #print("courts---------------", courts) # output for this is 
+            #<QuerySet [<Court_info: Queens High Court>, <Court_info: Jackson Heights Court>, <Court_info: JH 73rd st Court>]>
+
+            # Add success message
+            return render(request, 'add_judge.html', {
+                'success_message': 'Data added to the database successfully!',
+                'courts': Court_info.objects.all(),  # Include courts for dropdown
+            })
+        except Exception as e:
+            # Add error message
+            return render(request, "add_judge.html", {
+                "error_message": f"Error saving judge information: {str(e)}",
+                'courts': Court_info.objects.all(),  # Include courts for dropdown
+            })
+
+    return render(request, "add_judge.html")
