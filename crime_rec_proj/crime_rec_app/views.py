@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse , redirect
-from .models import Login_info
+from .models import Login_info,Court_info
 from datetime import datetime
 
 
@@ -39,7 +39,15 @@ def signup(request):
             elif Login_info.objects.filter(Email=email).exists():
                 return render(request, 'signup.html', {'error_message': 'Email {} already exists. Please use a different email address.'.format(email)})
             else:
-                new_login_info = Login_info(Username=username, F_name=fname, L_name=lname, Email=email, Password=password, DateTime=datetime.today())
+                new_login_info = Login_info(
+                    Username=username, 
+                    F_name=fname, 
+                    L_name=lname, 
+                    Email=email, 
+                    Password=password, 
+                    DateTime=datetime.today()
+                    )
+                
                 new_login_info.save()
                 return render(request, 'signup.html', {'success_message': 'Data added to database successfully!'})
         except Exception as e:
@@ -51,3 +59,47 @@ def signup(request):
 
 def base(request):
     return render(request, "base.html")
+
+
+def add_court(request):
+    if request.method == "POST":
+        # Retrieve data from the form
+        court_id = request.POST.get("Court_Id")
+        court_name = request.POST.get("Name")
+        address = request.POST.get("Address")
+        level = request.POST.get("Level")
+        phone = request.POST.get("Phone")
+        email = request.POST.get("Email")
+
+        try:
+            # Check if Court_Id already exists
+            if Court_info.objects.filter(Court_id=court_id).exists(): #Court_id - from models, court_id - variable in this code
+                return render(request, 'add_court.html', {
+                    'error_message': f'Court_Id {court_id} already exists. Please choose a different ID.'
+                })
+            elif Court_info.objects.filter(Phone_no=phone).exists():
+                return render(request, 'add_court.html', {
+                    'error_message': f'Phone no. {phone} already exists. Please choose a different phone no.'
+                })
+
+            # Save court information to the database
+            court_info = Court_info(
+                Court_id=court_id,
+                Court_name=court_name,
+                Address=address,
+                Level=level,
+                Phone_no=phone,
+                Email=email
+            )
+            court_info.save()
+            return render(request, 'add_court.html', {
+                'success_message': 'Data added to the database successfully!'
+            })
+        except Exception as e:
+            print(e)  # Debugging: Log the exception to the console
+            return render(request, 'add_court.html', {
+                'error_message': 'An error occurred while processing your request.'
+            })
+
+    # Render the form if the request method is not POST
+    return render(request, "add_court.html")

@@ -2,6 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from crime_rec_app.models import Login_info
+from crime_rec_app.models import Login_info, Court_info
 
 admin.site.register(Login_info)
+admin.site.register(Court_info)
