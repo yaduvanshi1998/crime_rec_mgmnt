@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse , redirect, get_object_or_404
-from .models import Login_info,Court_info, Judge_info
+from .models import Login_info,Court_info, Judge_info, Victim_info
 from datetime import datetime
 
 
@@ -165,3 +165,72 @@ def add_judge(request):
             })
 
     return render(request, "add_judge.html")
+
+def add_victim(request):
+    if request.method == "POST":
+        f_name = request.POST.get("F_name")
+        l_name = request.POST.get("L_name")
+        age = request.POST.get("Age")
+        nationality = request.POST.get("Nationality")
+        address = request.POST.get("Address")
+        phone = request.POST.get("Phone")
+        court_name = request.POST.get("Court_name")
+        judge_email = request.POST.get("Judge_email")
+
+        try:
+            # Fetch Court object based on court name
+            court = get_object_or_404(Court_info, Court_name=court_name)
+            
+            # Fetch Judge object based on judge email
+            judge = get_object_or_404(Judge_info, Email=judge_email)
+
+            # Check if phone number exists in Judge_info or Victim_info (to avoid duplicates)
+            if Victim_info.objects.filter(Phone_no=phone).exists():
+                return render(request, "add_victim.html", {
+                    "error_message": f"Phone number {phone} already exists. Please use a different phone number.",
+                    'courts': Court_info.objects.all()  # Include courts for dropdown
+                })
+
+            # Check if the given Court_id exists
+            if not Court_info.objects.filter(Court_name=court_name).exists():
+                return render(request, "add_victim.html", {
+                    "error_message": f"Court with name {court_name} does not exist.",
+                    'courts': Court_info.objects.all()  # Include courts for dropdown
+                })
+
+            # Check if the Judge exists
+            if not Judge_info.objects.filter(Email=judge_email).exists():
+                return render(request, "add_victim.html", {
+                    "error_message": f"Judge with email {judge_email} does not exist.",
+                    'courts': Court_info.objects.all()  # Include courts for dropdown
+                })
+
+            # Create and save Victim_info object
+            victim = Victim_info(
+                F_name=f_name,
+                L_name=l_name,
+                Age=age,
+                Nationality=nationality,
+                Address=address,
+                Phone_no=phone,
+                Court_id=court,
+                Judge_id=judge,
+            )
+            victim.save()  # Save victim data
+            print("Victim data saved successfully.")
+
+            # Add success message
+            return render(request, 'add_victim.html', {
+                'success_message': 'Victim data added successfully!',
+                'courts': Court_info.objects.all()  # Include courts for dropdown
+            })
+
+        except Exception as e:
+            # Add error message for unexpected errors
+            return render(request, "add_victim.html", {
+                "error_message": f"Error saving victim information: {str(e)}",
+                'courts': Court_info.objects.all()  # Include courts for dropdown
+            })
+
+    # Handle GET request
+    return render(request, "add_victim.html")
