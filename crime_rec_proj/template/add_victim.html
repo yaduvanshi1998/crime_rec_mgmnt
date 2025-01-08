@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Victim Info</title>
+    <link rel="stylesheet" href="{% static 'add_victim.css' %}">
+    <script src="{% static '/add_victim.js' %}"></script>
+    <script>
+        // Function to display an alert message
+        function showAlert(message) {
+            alert(message);
+        }
+
+    // Check if there's an error message or success message from the server
+        window.onload = function() {
+            {% if error_message %}
+                showAlert("{{ error_message }}");
+            {% elif success_message %}
+                showAlert("{{ success_message }}");
+            {% endif %}
+        }
+    </script>
+</head>
+<body>
+
+    <div class="background">
+        <div class="form-container">
+            <h1>Victim Information</h1>
+            <form action="#" method="POST" id="dataForm">
+                {% csrf_token %}
+                <label for="f_name">First Name:</label>
+                <input type="text" id="f_name" name="F_name" placeholder = "Enter the first name of victim" required>
+
+                <label for="l_name">Last Name:</label>
+                <input type="text" id="l_name" name="L_name" placeholder = "Enter the last name of victim" required>
+
+                <label for="age">Age:</label>
+                <input type="text" id="age" name="Age" placeholder = "Enter the age of victim" required>
+
+                <label for="nationality">Nationality:</label>
+                <input type="text" id="nationality" name="Nationality" placeholder = "Enter the Nationality of victim" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="Address" placeholder = "Enter the judge's address" required>
+
+                <label for="phone">Phone No:</label>
+                <input type="text" id="phone" name="Phone" placeholder = "Enter the phone number" required>
+                
+                <!--We are going to fetch the court id with the help of court name, court name will be only in html page
+                but inside the judge info table court id will be saved-->
+                <label for="court_name">Court Name:</label>
+                <select id="court_name" name="Court_name" required>
+                    <option value="" disabled selected>Select a court</option>
+                    <option value="Queens High Court">Queens High Court</option>
+                    <option value="Jackson Heights Court">Jackson Heights Court</option>
+                    <option value="JH 73rd st Court">JH 73rd st Court</option>
+                </select>
+
+                <label for="judge_email">Judge Email:</label>
+                <input type="text" id="judge_email" name="Judge_email" placeholder = "Enter the email of judge" required>
+
+                <button type="submit">Submit</button>
+            </form>
+            <div id="errorMessages"></div>
+        </div>
+    </div>
+
+</body>
+</html>
