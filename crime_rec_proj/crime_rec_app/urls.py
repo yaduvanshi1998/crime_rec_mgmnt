@@ -27,5 +27,6 @@ urlpatterns = [
     path("addCourt", views.add_court, name ='addCourt'),
     path("addJudge", views.add_judge, name='addJudge'),
     path("addVictim", views.add_victim, name='addVictim'),
+    path("addOffender", views.add_offender, name='addOffender'),
 ]
 
