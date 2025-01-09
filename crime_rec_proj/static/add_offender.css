@@ -1,0 +1,135 @@
+/* Overall body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: auto; /* Allow content to determine the height */
+    min-height: 100vh; /* Ensure the body always takes at least the full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align content at the top of the screen */
+    background-color: #f4f4f4; /* Light background color */
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Background container */
+.background {
+    width: 100%;
+    padding: 20px;
+    background-color: #333; /* Dark grey background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form container */
+.form-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Light grey background with slight transparency */
+    border-radius: 10px;
+    padding: 25px 35px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    max-width: 430px;
+    width: 100%;
+}
+
+.form-container h1 {
+    text-align: center;
+    color: #4CAF50; /* Green text */
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #4CAF50; /* Green underline */
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 3D shadow effect */
+}
+
+/* Form element styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 05px;
+}
+
+/* Labels and inputs */
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #444444;
+    font-size: 0.95rem;
+}
+
+input[type="text"], 
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+select {
+    appearance: none;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+/* Button styling */
+button[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #005f87;
+    transform: scale(1.02);
+}
+
+/* Error and success messages */
+#errorMessages {
+    color: red;
+    font-size: 1rem;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    font-size: 1rem;
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* Styling for radio buttons */
+input[type="radio"] {
+    margin-right: 10px; /* Keep space between radio buttons */
+    margin-left: 40px; /* Shift radio buttons a bit to the right */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}

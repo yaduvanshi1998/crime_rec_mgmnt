@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse , redirect, get_object_or_404
-from .models import Login_info,Court_info, Judge_info, Victim_info
+from .models import Login_info,Court_info, Judge_info, Victim_info, Offender_info
 from datetime import datetime
 
 
@@ -234,3 +234,90 @@ def add_victim(request):
 
     # Handle GET request
     return render(request, "add_victim.html")
+
+from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from .models import Offender_info, Court_info, Victim_info, Judge_info
+
+"""Helper function to generate the context for the offender form. for offender info"""
+def get_offender_form_context():
+    return {
+        'genders': ['Male', 'Female', 'Other'],
+        'bail_status_choices': ['Jailed', 'Released'],
+        'offense_types': ['Murder', 'Theft', 'Half_murder', 'Ragging', 'Ditching', 'Other'],
+        'courts': Court_info.objects.all()
+    }
+
+
+def add_offender(request):
+    if request.method == "POST":
+        # Retrieve form data
+        f_name = request.POST.get("F_name")
+        l_name = request.POST.get("L_name")
+        gender = request.POST.get("Gender")
+        age = request.POST.get("Age")
+        nationality = request.POST.get("Nationality")
+        address = request.POST.get("Address")
+        phone = request.POST.get("Phone")
+        offense_type = request.POST.get("Offense_type")
+        bail_status = request.POST.get("Bail_status")
+        jail_terms = request.POST.get("Terms")
+        court_name = request.POST.get("Court_name")
+        victim_phone = request.POST.get("Victim_phone")
+        judge_email = request.POST.get("Judge_email")
+
+        # Get dynamic context for the form
+        context = get_offender_form_context()
+
+        # Check if offender phone number already exists
+        if Offender_info.objects.filter(Phone_no=phone).exists():
+            context['error_message'] = "Offender with this phone number already exists. Please use a unique phone number."
+            return render(request, "add_offender.html", context)
+
+        # Validate Court Name
+        try:
+            court = get_object_or_404(Court_info, Court_name=court_name)
+        except:
+            context['error_message'] = "Court name not found. Please select a valid court."
+            return render(request, "add_offender.html", context)
+
+        # Validate Victim Phone Number
+        try:
+            victim = get_object_or_404(Victim_info, Phone_no=victim_phone)
+        except:
+            context['error_message'] = "Victim phone number not found. Please enter a valid victim phone number."
+            return render(request, "add_offender.html", context)
+
+        # Validate Judge Email
+        try:
+            judge = get_object_or_404(Judge_info, Email=judge_email)
+        except:
+            context['error_message'] = "Judge email not found. Please enter a valid judge email."
+            return render(request, "add_offender.html", context)
+
+        # If no errors, create and save offender
+        offender = Offender_info(
+            F_name=f_name,
+            L_name=l_name,
+            Gender=gender,
+            Age=age,
+            Nationality=nationality,
+            Address=address,
+            Phone_no=phone,
+            Offense_type=offense_type,
+            Bail_status=bail_status,
+            Jail_terms = jail_terms,
+            Court_id=court,
+            Victim_id=victim,
+            Judge_id=judge
+        )
+        offender.save()
+
+        # Success message
+        context['success_message'] = "Offender information added successfully."
+        return render(request, "add_offender.html", context)
+
+    else:
+        # For GET request, get the context for rendering the form
+        context = get_offender_form_context()
+        return render(request, "add_offender.html", context)
