@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Prison Info</title>
+    <link rel="stylesheet" href="{% static 'add_prison.css' %}">
+    <script src="{% static '/add_prison.js' %}"></script>
+    <script>
+        // Function to display an alert message
+        function showAlert(message) {
+            alert(message);
+        }
+
+    // Check if there's an error message or success message from the server
+        window.onload = function() {
+            {% if error_message %}
+                showAlert("{{ error_message }}");
+            {% elif success_message %}
+                showAlert("{{ success_message }}");
+            {% endif %}
+        }
+    </script>
+</head>
+<body>
+
+    <div class="background">
+        <div class="form-container">
+            <h1>Prison Information</h1>
+            <form action="#" method="POST" id="dataForm">
+                {% csrf_token %}
+                <label for="prison_name">Prison Name:</label>
+                <input type="text" id="prison_name" name="Prison_name" placeholder = "Enter the Prison name">
+
+                <label for="phone">Telephone No:</label>
+                <input type="text" id="phone" name="Telephone" placeholder = "Enter the telephone number" required>
+
+                <label for="address">Prison address:</label>
+                <input type="text" id="address" name="Address" placeholder = "Enter the address of prison" required>
+
+                <label for="offender_fname">Offender First Name:</label>
+                <input type="text" id="offender_fname" name="Offender_fname" placeholder = "Enter the offender's first name" required>
+
+                <label for="offender_lname">Offender Last Name:</label>
+                <input type="text" id="offender_lname" name="Offender_lname" placeholder = "Enter the offender's laast names" required>
+
+                <button type="submit">Submit</button>
+            </form>
+            <div id="errorMessages"></div>
+        </div>
+    </div>
+
+</body>
+</html>
