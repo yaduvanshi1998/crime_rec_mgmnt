@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Punishment Info</title>
+    <link rel="stylesheet" href="{% static 'add_punishment.css' %}">
+    <script src="{% static '/add_punishment.js' %}"></script>
+    <script>
+        // Function to display an alert message
+        function showAlert(message) {
+            alert(message);
+        }
+
+    // Check if there's an error message or success message from the server
+        window.onload = function() {
+            {% if error_message %}
+                showAlert("{{ error_message }}");
+            {% elif success_message %}
+                showAlert("{{ success_message }}");
+            {% endif %}
+        }
+    </script>
+</head>
+<body>
+
+    <div class="background">
+        <div class="form-container">
+            <h1>Punishment Information</h1>
+            <form action="#" method="POST" id="dataForm">
+                {% csrf_token %}
+                <label for="from_date">From Date:</label>
+                <input type="text" id="from_date" name="From_date" placeholder = "Punishment start date in YY-MM-DD format" required>
+
+                <label for="from_time">From Time:</label>
+                <input type="text" id="from_time" name="From_time" placeholder = "Punishment start time in HH:MM format" required>
+
+                <label for="to_date">To Date:</label>
+                <input type="text" id="to_date" name="To_date" placeholder = "Punishment end date in YY-MM-DD format" required>
+
+                <label for="to_time">To Time:</label>
+                <input type="text" id="to_time" name="To_time" placeholder = "Punishment end time in HH:MM format" required>
+
+                <label for="punishment_desc">Punishment Description:</label>
+                <input type="text" id="punishment_desc" name="Punishment_desc" placeholder = "Punishment Description" required>
+
+                <label for="punishment_inc">Punishment Increment:</label><br>
+                <label>
+                    <input type="radio" id = "punishment_inc" name="Punishment_inc" value="Yes" required>
+                    Yes
+                </label>
+                <label>
+                    <input type="radio" id = "punishment_inc" name="Punishment_inc" value="No">
+                    No
+                </label><br>
+
+                <label for="reason">Reason for Punishment Incerement:</label>
+                <input type="text" id="reason" name="Reason" placeholder = "If yes, Reason for Punishment Increment">
+
+                <label for="f_name">Offender First Name:</label>
+                <input type="text" id="f_name" name="F_name" placeholder = "Enter the first name of offender" required>
+
+                <label for="l_name">Offender Last Name:</label>
+                <input type="text" id="l_name" name="L_name" placeholder = "Enter the last name of offender" required>
+
+                <label for="prison_name">Prison Name:</label>
+                <input type="text" id="prison_name" name="Prison_name" placeholder = "Enter the prison name" required>
+
+                <label for="judge_email">Judge Email:</label>
+                <input type="text" id="judge_email" name="Judge_email" placeholder = "Enter Judge's Email" required>
+
+                <button type="submit">Submit</button>
+            </form>
+            <div id="errorMessages"></div>
+        </div>
+    </div>
+
+</body>
+</html>

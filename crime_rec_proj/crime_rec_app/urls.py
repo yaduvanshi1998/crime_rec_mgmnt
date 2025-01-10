@@ -31,6 +31,7 @@ urlpatterns = [
     path("addCrime", views.add_crime, name='addCrime'),
     path("addPrison", views.add_prison, name='addPrison'),
     path("addGuard", views.add_guard, name='addGuard'),
+    path("addPunishment", views.add_punishment, name='addPunishment')
 
 ]
 

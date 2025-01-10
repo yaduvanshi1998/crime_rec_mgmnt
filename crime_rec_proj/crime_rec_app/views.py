@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse , redirect, get_object_or_404
-from .models import Login_info,Court_info, Judge_info, Victim_info, Offender_info, Crime_info, Prison_information, Guard_information
+from .models import Login_info,Court_info, Judge_info, Victim_info, Offender_info, Crime_info, Prison_information, Guard_information, Punishment_info
 from datetime import datetime
 
 
@@ -480,3 +480,77 @@ def add_guard(request):
         context = get_guard_form_context()
         return render(request, "add_guard.html", context)
 
+
+def add_punishment(request):
+    context = {'punishment_incs': ['Yes', 'No']}  # Initialize context
+
+    if request.method == "POST":
+        from_date = request.POST.get("From_date")
+        from_time = request.POST.get("From_time")
+        to_date = request.POST.get("To_date")
+        to_time = request.POST.get("To_time")
+        punishment_desc = request.POST.get("Punishment_desc")
+        reason = request.POST.get("Reason")
+        punishment_inc = request.POST.get("Punishment_inc")
+        offender_fname = request.POST.get("F_name")
+        offender_lname = request.POST.get("L_name")
+        prison_name = request.POST.get("Prison_name")
+        judge_email = request.POST.get("Judge_email")
+
+        # Validate date and time
+        try:
+            start_datetime = datetime.strptime(f"{from_date} {from_time}", "%Y-%m-%d %H:%M")
+            end_datetime = datetime.strptime(f"{to_date} {to_time}", "%Y-%m-%d %H:%M")
+            if end_datetime <= start_datetime:
+                context['error_message'] = "To Date and Time must be after From Date and Time."
+                return render(request, "add_punishment.html", context)
+        except ValueError:
+            context['error_message'] = "Invalid date or time format. Please use YYYY-MM-DD for dates and HH:MM for times."
+            return render(request, "add_punishment.html", context)
+
+        # Calculate total duration in days
+        total_duration = (end_datetime - start_datetime).days
+
+        # Retrieve offender details
+        try:
+            offender = Offender_info.objects.get(F_name=offender_fname, L_name=offender_lname)
+        except Offender_info.DoesNotExist:
+            context['error_message'] = "Offender not found. Please ensure the offender's details are correct."
+            return render(request, "add_punishment.html", context)
+
+        # Retrieve prison details
+        try:
+            prison = Prison_information.objects.get(Prison_name=prison_name)
+        except Prison_information.DoesNotExist:
+            context['error_message'] = "Prison not found. Please ensure the prison details are correct."
+            return render(request, "add_punishment.html", context)
+
+        # Retrieve judge details
+        try:
+            judge = Judge_info.objects.get(Email=judge_email)
+        except Judge_info.DoesNotExist:
+            context['error_message'] = "Judge's email not found. Please ensure the Judge's email is correct."
+            return render(request, "add_punishment.html", context)
+
+        # Create Punishment_info record
+        punishment = Punishment_info(
+            From_date = from_date,
+            From_time = from_time,
+            To_date = to_date,
+            To_time = to_time,
+            Total_duration_days = total_duration,
+            Punishment_desc = punishment_desc,
+            Reason_punishment_inc = reason,
+            Punishment_inc = punishment_inc,
+            Offender_id = offender.Offender_id,  # Use the offender's ID
+            Prison_id = prison.Prison_id,  # Use the prison's ID
+            Judge_id = judge.Judge_id,  # Use the judge's ID
+        )
+        punishment.save()
+
+        # Success message
+        context['success_message'] = "Punishment information added successfully."
+        return render(request, "add_punishment.html", context)
+
+    # Render the form for GET requests
+    return render(request, "add_punishment.html", context)

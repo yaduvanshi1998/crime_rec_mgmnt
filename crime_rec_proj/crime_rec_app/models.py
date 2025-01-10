@@ -211,3 +211,39 @@ class Guard_information(models.Model):
     def __str__(self):
         return self.Email
     
+class Punishment_info(models.Model):
+    Punishment_id = models.CharField(primary_key=True, max_length=25, editable=False)
+    From_date = models.CharField(max_length=25)
+    From_time = models.CharField(max_length=25)
+    To_date = models.CharField(max_length=25)
+    To_time = models.CharField(max_length=25)
+    Total_duration_days = models.CharField(max_length=25)
+    Punishment_desc = models.TextField(max_length=500)
+    Punishment_inc = models.CharField(max_length=15)
+    Reason_punishment_inc = models.CharField(max_length=500)
+    Offender_id = models.CharField(max_length=25)
+    Prison_id = models.CharField(max_length=25)
+    Judge_id = models.CharField(max_length=25)
+
+    def save(self, *args, **kwargs):
+        if not self.Punishment_id:  # Only generate ID if it doesn't already exist
+            # Get the last Punishment_id, if available
+            last_punishment = Punishment_info.objects.order_by('Punishment_id').last()
+            
+            # Determine the next ID
+            if last_punishment and last_punishment.Punishment_id.startswith('PUN'):
+                # Extract the numeric part and increment it
+                next_id_num = int(last_punishment.Punishment_id[3:]) + 1
+            else:
+                # Start from 101 if no valid last ID exists
+                next_id_num = 101
+            
+            # Set the new Punishment_id with prefix 'CR'
+            self.Punishment_id = f'PUN{next_id_num}'
+        
+        # Call the parent save method
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.Punishment_id
+    
