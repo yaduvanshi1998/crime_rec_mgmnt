@@ -122,3 +122,92 @@ class Offender_info(models.Model):
 
     def __str__(self):
         return self.F_name +" "+ self.L_name
+    
+class Crime_info(models.Model):
+    Crime_id = models.CharField(primary_key=True, max_length=25, editable=False)
+    Crime_type = models.CharField(max_length=50)
+    Weapon_used = models.CharField(max_length=125)
+    Crime_date = models.CharField(max_length=25)
+    Crime_time = models.CharField(max_length=25)
+    Crime_loccation = models.CharField(max_length=125)
+    Offender_id = models.ForeignKey("Offender_info", verbose_name="offender info", on_delete=models.CASCADE)
+    Victim_id = models.ForeignKey("Victim_info", verbose_name=" victim info", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.Crime_id:  # Only generate ID if it doesn't already exist
+            # Get the last Crime_id, if available
+            last_crime = Crime_info.objects.order_by('Crime_id').last()
+            
+            # Determine the next ID
+            if last_crime and last_crime.Crime_id.startswith('CR'):
+                # Extract the numeric part and increment it
+                next_id_num = int(last_crime.Crime_id[2:]) + 1
+            else:
+                # Start from 101 if no valid last ID exists
+                next_id_num = 101
+            
+            # Set the new Crime_id with prefix 'CR'
+            self.Crime_id = f'CR{next_id_num}'
+        
+        # Call the parent save method
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.Crime_date +" "+ self.Crime_time
+    
+class Prison_information(models.Model):
+    Prison_id = models.CharField(primary_key=True, max_length=25, editable=False)
+    Prison_name = models.CharField(max_length=125)
+    Telephone_no = models.CharField(max_length=15)
+    Address = models.CharField(max_length=250)
+    Offender_id = models.ForeignKey("Offender_info", verbose_name="offender info", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.Prison_id:  # Only generate ID if it doesn't already exist
+            # Get the last Prison_id, if available
+            last_prison = Prison_information.objects.order_by('Prison_id').last()
+            
+            # Determine the next ID
+            next_id_num = int(last_prison.Prison_id[1:]) + 1 if last_prison else 101
+            
+            # Set the new Offender_id with prefix 'P'
+            self.Prison_id = f'P{next_id_num}'
+        
+        # Call the parent save method
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.Prison_name
+    
+class Guard_information(models.Model):
+    Guard_id = models.CharField(primary_key=True, max_length=25, editable=False)
+    F_name = models.CharField(max_length=25)
+    L_name = models.CharField(max_length=25)
+    Gender = models.CharField(max_length=25)
+    Age = models.IntegerField()
+    Address = models.TextField(max_length=250)
+    Phone_no = models.CharField(max_length=15)
+    Shift_start = models.CharField(max_length=50)
+    Shift_end = models.CharField(max_length=50)
+    Email = models.EmailField(max_length=50)
+    Prison_id = models.ForeignKey("crime_rec_app.Prison_information", verbose_name='prison information', on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.Guard_id:  # Only generate ID if it doesn't already exist
+            # Get the last Guard_id, if available
+            last_guard = Guard_information.objects.order_by('Guard_id').last()
+            
+            # Determine the next ID
+            next_id_num = int(last_guard.Guard_id[1:]) + 1 if last_guard else 101
+            
+            # Set the new guard_id with prefix 'G'
+            self.Guard_id = f'G{next_id_num}'
+        
+        # Call the parent save method
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.Email
+    

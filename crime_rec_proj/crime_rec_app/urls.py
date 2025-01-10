@@ -28,5 +28,15 @@ urlpatterns = [
     path("addJudge", views.add_judge, name='addJudge'),
     path("addVictim", views.add_victim, name='addVictim'),
     path("addOffender", views.add_offender, name='addOffender'),
+    path("addCrime", views.add_crime, name='addCrime'),
+    path("addPrison", views.add_prison, name='addPrison'),
+    path("addGuard", views.add_guard, name='addGuard'),
+
 ]
 
+'''
+Run this commands to add the remote link & fetch all the branches
+git remote add origin https://github.com/yaduvanshi1998/crime_rec_mgmnt.git
+git fetch --all
+
+'''

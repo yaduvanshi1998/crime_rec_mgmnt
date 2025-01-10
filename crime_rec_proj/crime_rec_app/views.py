@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse , redirect, get_object_or_404
-from .models import Login_info,Court_info, Judge_info, Victim_info, Offender_info
+from .models import Login_info,Court_info, Judge_info, Victim_info, Offender_info, Crime_info, Prison_information, Guard_information
 from datetime import datetime
 
 
@@ -321,3 +321,162 @@ def add_offender(request):
         # For GET request, get the context for rendering the form
         context = get_offender_form_context()
         return render(request, "add_offender.html", context)
+    
+def add_crime(request):
+    if request.method == "POST":
+        # Retrieve form data
+        weapon_used = request.POST.get("Weapon_used")
+        crime_date = request.POST.get("Crime_date")
+        crime_time = request.POST.get("Crime_time")
+        crime_location = request.POST.get("Crime_location")
+        offender_fname = request.POST.get("Offender_fname")
+        offender_lname = request.POST.get("Offender_lname")
+        victim_fname = request.POST.get("Victim_fname")
+        victim_lname = request.POST.get("Victim_lname")
+
+        context = {}  # Initialize context for error or success messages
+
+        # Validate required fields
+        if not all([weapon_used, crime_date, crime_time, crime_location, offender_fname, offender_lname, victim_fname, victim_lname]):
+            context['error_message'] = "All fields are required. Please fill out the form completely."
+            return render(request, "add_crime.html", context)
+
+        # Validate and retrieve offender
+        try:
+            offender = Offender_info.objects.get(F_name=offender_fname, L_name=offender_lname)
+        except Offender_info.DoesNotExist:
+            context['error_message'] = "Offender not found. Please ensure the offender's details are correct."
+            return render(request, "add_crime.html", context)
+
+        # Validate and retrieve victim
+        try:
+            victim = Victim_info.objects.get(F_name=victim_fname, L_name=victim_lname)
+        except Victim_info.DoesNotExist:
+            context['error_message'] = "Victim not found. Please ensure the victim's details are correct."
+            return render(request, "add_crime.html", context)
+
+         # Fetch the Crime_type from the Offender_info table (using the Offense_type column)
+        crime_type = offender.Offense_type
+
+        # Create and save the crime record
+        crime = Crime_info(
+            Crime_type = crime_type,
+            Weapon_used=weapon_used,
+            Crime_date=crime_date,
+            Crime_time=crime_time,
+            Crime_loccation=crime_location,  # Note: This matches your model field name
+            Offender_id=offender,
+            Victim_id=victim
+        )
+        crime.save()
+
+        # Success message
+        context['success_message'] = "Crime information added successfully."
+        return render(request, "add_crime.html", context)
+
+    else:
+        # Render the form for GET requests
+        return render(request, "add_crime.html")
+
+def add_prison(request):
+    context = {}  # Context to pass error or success messages to the template
+    
+    if request.method == "POST":
+        # Retrieve form data
+        prison_name = request.POST.get("Prison_name")
+        telephone_no = request.POST.get("Telephone")
+        address = request.POST.get("Address")
+        offender_fname = request.POST.get("Offender_fname")
+        offender_lname = request.POST.get("Offender_lname")
+        
+        # Check for existing telephone number in the database
+        if Prison_information.objects.filter(Telephone_no=telephone_no).exists():
+            context['error_message'] = "This telephone number is already associated with another prison. Please enter a unique telephone number."
+            return render(request, "add_prison.html", context)
+
+        # Retrieve offender details
+        try:
+            offender = Offender_info.objects.get(F_name=offender_fname, L_name=offender_lname)
+        except Offender_info.DoesNotExist:
+            context['error_message'] = "Offender not found. Please ensure the offender's details are correct."
+            return render(request, "add_prison.html", context)
+
+        # Create and save the prison record
+        prison = Prison_information(
+            Prison_name=prison_name,
+            Telephone_no=telephone_no,
+            Address=address,
+            Offender_id=offender
+        )
+        prison.save()
+
+        # Success message
+        context['success_message'] = "Prison information added successfully."
+
+    # Return the form view with any messages in the context
+    return render(request, "add_prison.html", context)
+
+"""Helper function to generate the context for the guard form. for guard info"""
+def get_guard_form_context():
+    return {
+        'genders': ['Male', 'Female', 'Other']
+    }
+
+def add_guard(request):
+    if request.method == "POST":
+        # Retrieve form data
+        f_name = request.POST.get("F_name")
+        l_name = request.POST.get("L_name")
+        gender = request.POST.get("Gender")
+        age = request.POST.get("Age")
+        address = request.POST.get("Address")
+        phone = request.POST.get("Phone")
+        shift_start = request.POST.get("Shift_start")
+        shift_end = request.POST.get("Shift_end")
+        email = request.POST.get("Email")
+        prison_name = request.POST.get("Prison_name")
+
+        # Get dynamic context for the form
+        context = get_guard_form_context()
+
+        # Check if guard phone number already exists
+        if Guard_information.objects.filter(Phone_no=phone).exists():
+            context['error_message'] = "Guard with this phone number already exists. Please use a unique phone number."
+            return render(request, "add_guard.html", context)
+
+        # Check if guard email already exists
+        if Guard_information.objects.filter(Email=email).exists():
+            context['error_message'] = "Guard with this email already exists. Please use a unique email."
+            return render(request, "add_guard.html", context)
+
+        # Validate prison name
+        try:
+            prison = get_object_or_404(Prison_information, Prison_name=prison_name)
+        except:
+            context['error_message'] = "Prison name not found. Please enter a valid prison name."
+            return render(request, "add_guard.html", context)
+
+        # If no errors, create and save guard
+        guard = Guard_information(
+            F_name=f_name,
+            L_name=l_name,
+            Gender=gender,
+            Age=age,
+            Address=address,
+            Phone_no=phone,
+            Shift_start=shift_start,
+            Shift_end=shift_end,
+            Email=email,
+            Prison_id=prison
+        )
+        guard.save()
+
+        # Success message
+        context['success_message'] = "Guard information added successfully."
+        return render(request, "add_guard.html", context)
+
+    else:
+        # For GET request, get the context for rendering the form
+        context = get_guard_form_context()
+        return render(request, "add_guard.html", context)
+

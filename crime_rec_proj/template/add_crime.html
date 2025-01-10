@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Crime Info</title>
+    <link rel="stylesheet" href="{% static 'add_crime.css' %}">
+    <script src="{% static '/add_crime.js' %}"></script>
+    <script>
+        // Function to display an alert message
+        function showAlert(message) {
+            alert(message);
+        }
+
+    // Check if there's an error message or success message from the server
+        window.onload = function() {
+            {% if error_message %}
+                showAlert("{{ error_message }}");
+            {% elif success_message %}
+                showAlert("{{ success_message }}");
+            {% endif %}
+        }
+    </script>
+</head>
+<body>
+
+    <div class="background">
+        <div class="form-container">
+            <h1>Crime Information</h1>
+            <form action="#" method="POST" id="dataForm">
+                {% csrf_token %}
+                <label for="weapon_used">Weapon Used:</label>
+                <input type="text" id="weapon_used" name="Weapon_used" placeholder = "Enter the Weapon used">
+
+                <label for="crime_date">Crime Date:</label>
+                <input type="text" id="crime_date" name="Crime_date" placeholder = "Crime date format: YYYY-MM-DD" required>
+
+                <label for="crime_time">Crime time:</label>
+                <input type="text" id="crime_time" name="Crime_time" placeholder = "Crime time format: HH:MM in 24-hour" required>
+
+                <label for="crime_location">Crime Location:</label>
+                <input type="text" id="crime_location" name="Crime_location" placeholder = "Enter the crime location" required>
+
+                <label for="offender_fname">Offender First Name:</label>
+                <input type="text" id="offender_fname" name="Offender_fname" placeholder = "Enter the offender's first name" required>
+
+                <label for="offender_lname">Offender Last Name:</label>
+                <input type="text" id="offender_lname" name="Offender_lname" placeholder = "Enter the offender's laast names" required>
+
+                <label for="victim_fname">Victim First Name:</label>
+                <input type="text" id="victim_fname" name="Victim_fname" placeholder = "Enter theVictim's first name" required>
+
+                <label for="victim_lname">Victim Last Name:</label>
+                <input type="text" id="victim_lname" name="Victim_lname" placeholder = "Enter the victim's last name" required>
+                
+                <button type="submit">Submit</button>
+            </form>
+            <div id="errorMessages"></div>
+        </div>
+    </div>
+
+</body>
+</html>
