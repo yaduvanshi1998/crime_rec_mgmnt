@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base_disp_records.css' %}">
+    <title>Offender Information</title>
+    <style>
+        table {
+            border: 1px solid white; /* Outer border color */
+        }
+        th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>List of Offender</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Offender ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Nationality</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Offense Type</th>
+                <th>Bail Status</th>
+                <th>Jail Terms</th>
+                <th>Court ID</th>
+                <th>Victim ID</th>
+                <th>Judge ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for offender in offenders %}
+            <tr>
+                <td>{{ offender.Offender_id }}</td>
+                <td>{{ offender.F_name }}</td>
+                <td>{{ offender.L_name }}</td>
+                <td>{{ offender.Gender }}</td>
+                <td>{{ offender.Age }}</td>
+                <td>{{ offender.Nationality }}</td>
+                <td>{{ offender.Address }}</td>
+                <td>{{ offender.Phone_no }}</td>
+                <td>{{ offender.Offense_type }}</td>
+                <td>{{ offender.Bail_status }}</td>
+                <td>{{ offender.Jail_terms }}</td>
+                <td>{{ offender.Court_id }}</td>
+                <td>{{ offender.Victim_id }}</td>
+                <td>{{ offender.Judge_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

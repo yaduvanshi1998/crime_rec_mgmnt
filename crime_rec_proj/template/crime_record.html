@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base_disp_records.css' %}">
+    <title>Crime Records</title>
+</head>
+<body>
+    <h1>List of Crime</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Crime ID</th>
+                <th>Crime Type</th>
+                <th>Weapon Used</th>
+                <th>Crime Date</th>
+                <th>Crime Time</th>
+                <th>Crime Location</th>
+                <th>Offender ID</th>
+                <th>Victim ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for crime in crimes %}
+            <tr>
+                <td>{{ crime.Crime_id }}</td>
+                <td>{{ crime.Crime_type }}</td>
+                <td>{{ crime.Weapon_used }}</td>
+                <td>{{ crime.Crime_date }}</td>
+                <td>{{ crime.Crime_time }}</td>
+                <td>{{ crime.Crime_loccation }}</td>
+                <td>{{ crime.Offender_id }}</td>
+                <td>{{ crime.Victim_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

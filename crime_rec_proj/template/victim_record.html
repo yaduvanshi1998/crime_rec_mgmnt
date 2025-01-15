@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base_disp_records.css' %}">
+    <title>Victim Information</title>
+</head>
+<body>
+    <h1>List of Victim</h1>
+    <table border="1">
+        <tr>
+            <th>Victim ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>Nationality</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Court ID</th>
+            <th>Judge ID</th>
+        </tr>
+        {% for victim in victims %}
+        <tr>
+            <td>{{ victim.Victim_id }}</td>
+            <td>{{ victim.F_name }}</td>
+            <td>{{ victim.L_name }}</td>
+            <td>{{ victim.Age }}</td>
+            <td>{{ victim.Nationality }}</td>
+            <td>{{ victim.Address }}</td>
+            <td>{{ victim.Phone_no }}</td>
+            <td>{{ victim.Court_id }}</td>
+            <td>{{ victim.Judge_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

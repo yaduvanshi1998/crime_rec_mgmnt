@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crime_rec_app.apps.CrimeRecAppConfig',
+    'record_app.apps.RecordAppConfig',
 ]
 
 MIDDLEWARE = [
