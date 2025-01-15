@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base_disp_records.css' %}">
+    <title>Prison Information</title>
+</head>
+<body>
+    <h1>List of Prison</h1>
+    <table border="1">
+        <tr>
+            <th>Prison ID</th>
+            <th>Prison Name</th>
+            <th>Telephone Number</th>
+            <th>Address</th>
+            <th>Offender ID</th>
+        </tr>
+        {% for prison in prisons %}
+        <tr>
+            <td>{{ prison.Prison_id }}</td>
+            <td>{{ prison.Prison_name }}</td>
+            <td>{{ prison.Telephone_no }}</td>
+            <td>{{ prison.Address }}</td>
+            <td>{{ prison.Offender_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

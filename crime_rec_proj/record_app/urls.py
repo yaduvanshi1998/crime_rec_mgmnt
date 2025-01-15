@@ -15,24 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from crime_rec_app import views
+from django.urls import path
+from record_app import views
 
 
 urlpatterns = [
-    path("", views.login, name='redirectlogin'),
-    path("login", views.login, name='login'),
-    path("base", views.base, name='base'),
-    path("signup", views.signup, name='signup'),
-    path("addCourt", views.add_court, name ='addCourt'),
-    path("addJudge", views.add_judge, name='addJudge'),
-    path("addVictim", views.add_victim, name='addVictim'),
-    path("addOffender", views.add_offender, name='addOffender'),
-    path("addCrime", views.add_crime, name='addCrime'),
-    path("addPrison", views.add_prison, name='addPrison'),
-    path("addGuard", views.add_guard, name='addGuard'),
-    path("addPunishment", views.add_punishment, name='addPunishment'),
-
+    path("court", views.court_record, name = 'court_record'),
+    path("judge", views.judge_record, name = 'judge_record'),
+    path("victim", views.victim_record, name = 'victim_record'),
+    path("offender", views.offender_record, name = 'offender_record'),
+    path("crime", views.crime_record, name = 'crime_record'),
+    path("prison", views.prison_record, name = 'prison_record'),
+    path("guard", views.guard_record, name = 'guard_record'),
+    path("punishment", views.punishment_record, name = 'punishment_record'),
 ]
 
 '''

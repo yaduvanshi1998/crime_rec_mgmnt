@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base_disp_records.css' %}">
+    <title>Court Information</title>
+</head>
+<body>
+    <h1>List of Court</h1>
+    <table border="1">
+        <tr>
+            <th>Court ID</th>
+            <th>Court Name</th>
+            <th>Address</th>
+            <th>Level</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+        </tr>
+        {% for court in courts %} <!-- courts is the variable used in views for creating an object of of class (value is in dictionary form)-->
+        <tr>
+            <td>{{ court.Court_id }}</td>
+            <td>{{ court.Court_name }}</td>
+            <td>{{ court.Address }}</td>
+            <td>{{ court.Level }}</td>
+            <td>{{ court.Phone_no }}</td>
+            <td>{{ court.Email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
