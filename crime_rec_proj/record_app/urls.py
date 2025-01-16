@@ -24,10 +24,11 @@ urlpatterns = [
     path("judge", views.judge_record, name = 'judge_record'),
     path("victim", views.victim_record, name = 'victim_record'),
     path("offender", views.offender_record, name = 'offender_record'),
-    path("crime", views.crime_record, name = 'crime_record'),
+    #path("crime", views.crime_record, name = 'crime_record'),
     path("prison", views.prison_record, name = 'prison_record'),
     path("guard", views.guard_record, name = 'guard_record'),
     path("punishment", views.punishment_record, name = 'punishment_record'),
+    path("crime", views.crime_data_view, name='crime_data_view'), 
 ]
 
 '''

@@ -6,10 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'base_disp_records.css' %}">
     <title>Crime Records</title>
+    <style>
+        table {
+            border: 1px solid white; /* Outer border color */
+        }
+        th, td {
+            border: 1px solid black;
+        }
+        .chart-container {
+            width: 80%; /* Reduce the width to 80% of the container */
+            height: auto; /* Let the height adjust proportionally */
+            margin: 20px auto; /* Center the chart horizontally and give some space from other elements */
+            text-align: center; /* Ensure the content inside is centered */
+        }
+        .chart-container img {
+            max-width: 100%; /* Ensure the image scales to fit within the container */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
 </head>
 <body>
     <h1>List of Crime</h1>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Crime ID</th>
@@ -37,5 +55,10 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Display the chart below the table -->
+    <div class="chart-container">
+        <img src="{{ plot_url }}" alt="Crime Chart">
+    </div>
 </body>
 </html>
