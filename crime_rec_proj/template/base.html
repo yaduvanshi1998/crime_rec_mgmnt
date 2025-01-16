@@ -5,14 +5,11 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link rel="stylesheet" href="{% static 'base1.css' %}">
     <title>Crime Record Management</title>
 </head>
 
 <body>
-    <header>
-        <h1>Welcome to Crime Record Management</h1>
-    </header>
 
     <nav>
         <ul>
@@ -31,6 +28,10 @@
     <div class="hero">
     </div>
 
+    <header>
+        <h1>Welcome to Crime Record Management</h1>
+    </header>
+
     <div class="content">
         <section class="section">
             <h2>About Us</h2>
@@ -41,7 +42,7 @@
 
         <section class="section">
             <h2>Our Services</h2>
-            <ul>
+            <ul class="services-list">
                 <li><a href="show/court">COURT DATA</a></li>
                 <li><a href="show/crime">CRIME DATA</a></li>
                 <li><a href="show/guard">GUARD DATA</a></li>
@@ -53,49 +54,24 @@
             </ul>
         </section>
 
-        <section class="section gallery">
-            <h2>Crime Scene Gallery</h2>
-        </section>
-
         <section class="section">
-            <h2>Contact Us</h2>
+            <div class="contact-header">
+                <h2>Contact Us:</h2>
+                <p style="color: blue;"><span style="color: red;">&#9993; &nbsp;</span> <a href="mailto:yadavchandan214@gmail.com">yadavchandan214@gmail.com</a></p>
+                <p><span style="color: green;">&#9742; &nbsp;</span> <a href="tel:+1234567890">+123-456-7890</a></p>
+            </div>
             <form action="#" method="post">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your your Email" required>
                 <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
+                <textarea id="message" name="message" rows="4" placeholder="Enter your text here!" required></textarea>
                 <input type="submit" value="Submit">
             </form>
         </section>
+        
 
-        <section class="section">
-            <h2>Search Crime Records</h2>
-            <form action="#" method="get">
-                <input type="text" id="search" name="search" placeholder="Search crime records...">
-                <input type="submit" value="Search">
-            </form>
-        </section>
-
-        <section class="section">
-            <h2>Report a Crime</h2>
-            <form action="#" method="post">
-                <label for="crimeType">Crime Type:</label>
-                <select id="crimeType" name="crimeType">
-                    <option value="theft">Theft</option>
-                    <option value="assault">Assault</option>
-                    <option value="vandalism">Vandalism</option>
-                </select>
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" required>
-                <label for="details">Details:</label>
-                <textarea id="details" name="details" rows="4" required></textarea>
-                <label for="evidence">Upload Evidence (optional):</label>
-                <input type="file" id="evidence" name="evidence">
-                <input type="submit" value="Report">
-            </form>
-        </section>
     </div>
 
     <footer>
